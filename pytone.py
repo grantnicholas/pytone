@@ -1,7 +1,11 @@
 import matplotlib.pyplot as plt
+import numpy as np
 from scipy.io import wavfile # get the api
 from scipy.fftpack import fft
 from pylab import *
+from scipy.signal import argrelextrema
+
+import peakdetect as pd
 
 def max(arr):
 	maxval = arr[0];
@@ -17,7 +21,9 @@ def f(filename):
 	fs, data = wavfile.read(filename) # load the data
 	plt.plot(data.T[0]);
 	maxtimedomain = max(data.T[0])[1];
-	savefig('new'+filename+'.png',bbox_inches='tight');
+	savefig('timedomain'+filename+'.png',bbox_inches='tight');
+	cla()
+	clf()
 	
 	time_arr = [];
 	for i, val in enumerate(data.T[0]):
@@ -37,10 +43,19 @@ def f(filename):
 	frq = frq[0:50000];  out = out[0:50000];
 	plt.plot(frq,out,'r')
 	plt.ylim((0,50000))
-	savefig(filename+'.png',bbox_inches='tight')
-	maxi = max(frq)[1];
+	savefig('freqdomain'+filename+'.png',bbox_inches='tight')
+
+	ampmax = np.max(np.absolute(data.T[0]))
+	print ampmax
+
+
+	#Peakdetection on arbitrary data is a tough cookie. Will come back later but for now will hard code the sample data peak values
+	#thedata = np.absolute(data.T[0])
+	#[maxp,minp] = pd.peakdetect(data.T[0], None, 300, 63100)
+	#print maxp
+
+
 			
-	print maxi;
 
 		
 	
